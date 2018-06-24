@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { retriveResults, moodClick } from '../../actions/my_action';
 import Modal from '../../universal_components/modal';
+import PDFComponent from '../../universal_components/pdf_component';
 
 class MyComponent extends React.Component {
 
@@ -13,10 +14,16 @@ class MyComponent extends React.Component {
 			showModal: false
 		}
 		this.showCards = this.showCards.bind(this);
+		this.showPDF = this.showPDF.bind(this);
 	}
 
 	componentDidMount(){
 		this.props.retriveResults();
+	}
+
+	showPDF(path){
+		console.log(path,"kokokokok")
+		this.setState({showModal: true, pdfUrl:path})
 	}
 
 	showCards(){
@@ -40,9 +47,16 @@ class MyComponent extends React.Component {
 			<Modal>
 				<a href="javascript:void(0)"
 				 className="btn btn-primary"
-				 onClick={()=>{this.setState({showModal: false, imageUrl:''})}}>Close</a>
+				 onClick={()=>{this.setState({showModal: false, imageUrl:'', pdfUrl: ''})}}>Close</a>
 				/>
-				<img src={this.state.imageUrl} />
+				{
+					this.state.imageUrl &&
+						<img src={this.state.imageUrl} />
+				}
+				{
+					this.state.pdfUrl &&
+						<img src={this.state.imageUrl} />
+				}
 			</Modal>
 		  ) : null;
 
@@ -55,7 +69,7 @@ class MyComponent extends React.Component {
 					{
 						this.state.tab === 'image' ?
 								this.showCards() :
-								null
+								<PDFComponent showPDF={this.showPDF}/>
 					}
 					{modal}
 			</React.Fragment>
