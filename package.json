@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/ashishshetty777/react-redux-webpack-boilerplate#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "lodash": "^4.17.10",
     "prop-types": "^15.6.1",
     "react": "^16.4.1",

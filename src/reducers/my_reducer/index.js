@@ -10,7 +10,7 @@ export const myReducer = (state=initialState, action) => {
 	switch(action.type){
 		case 'RETRIVE_RESULTS':
 			let data = action.results;
-			let result_obj = _keyBy(data, 'post_id') //converted the array into object for optimisation
+			let result_obj = _keyBy(data, 'id') //converted the array into object for optimisation
 			return {
 				...state,
 				results: result_obj

@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 let data_json = [{
     post_id: "Call me Ashish",
     is_liked: false
@@ -16,7 +18,12 @@ const dispatchMoodClick = id => ({
 })
 
 export const retriveResults = (obj) =>async dispatch =>{
-    dispatch(dispatchGetResults(data_json));
+    try{
+        let response = await axios.get('https://jsonplaceholder.typicode.com/photos');
+        dispatch(dispatchGetResults(response.data.slice(0, 100)));
+    }catch(e){
+        console.log(e);
+    }
 }
 
 export const moodClick = (id) =>async dispatch =>{
