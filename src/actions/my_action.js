@@ -12,8 +12,8 @@ const dispatchGetResults = results => ({
     results
 })
 
-const dispatchMoodClick = id => ({
-    type: 'MOOD_CLICK',
+const dispatchImageCheckClick = id => ({
+    type: 'IMAGE_CHECK_CLICK',
     id
 })
 
@@ -26,8 +26,8 @@ export const retriveResults = (obj) =>async dispatch =>{
     }
 }
 
-export const moodClick = (id) =>async dispatch =>{
-    dispatch(dispatchMoodClick(id));
+export const imageCheckClick = (id) =>async dispatch =>{
+    dispatch(dispatchImageCheckClick(id));
 }
   
   
