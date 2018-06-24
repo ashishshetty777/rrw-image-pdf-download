@@ -55,7 +55,9 @@ class MyComponent extends React.Component {
 				}
 				{
 					this.state.pdfUrl &&
-						<img src={this.state.imageUrl} />
+					<object data={this.state.pdfUrl} type="application/pdf" width="100%" height="100%">
+						<a href={this.state.pdfUrl}>Download PDF</a>
+					</object>
 				}
 			</Modal>
 		  ) : null;
