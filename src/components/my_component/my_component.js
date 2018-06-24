@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { retriveResults, imageCheckClick } from '../../actions/my_action';
+import { retriveResults, imageCheckClick, retrivePDFs, checkPDF } from '../../actions/my_action';
 import Modal from '../../universal_components/modal';
 import PDFComponent from '../../universal_components/pdf_component';
 import _ from 'lodash';
@@ -16,14 +16,20 @@ class MyComponent extends React.Component {
 		}
 		this.showCards = this.showCards.bind(this);
 		this.showPDF = this.showPDF.bind(this);
+		this.selectPDF= this.selectPDF.bind(this);
 	}
 
 	componentDidMount(){
 		this.props.retriveResults();
+		this.props.retrivePDFs();
 	}
 
 	showPDF(path){
 		this.setState({showModal: true, pdfUrl:path})
+	}
+
+	selectPDF(e, id){
+		this.props.checkPDF(id);
 	}
 
 	showCards(){
@@ -46,16 +52,17 @@ class MyComponent extends React.Component {
 
 	downloadImages(){
 		let { checkedImages } = this.props;
-		for(let i in checkedImages){
-			if(checkedImages[i]){
-				let elem = document.getElementById(`img-${i}`);
-				elem.setAttribute('download', 'image');
-			}
-		}
+		// for(let i in checkedImages){
+		// 	if(checkedImages[i]){
+		// 		let elem = document.getElementById(`img-${i}`);
+		// 		elem.setAttribute('download', 'image');
+		// 	}
+		// }
+		console.log(checkedImages,"lplpl")
 	}
 
 	downloadPDFs(){
-
+		console.log(this.props.checkedPDFs,"@@@@")
 	}
 
 	render(){
@@ -77,9 +84,8 @@ class MyComponent extends React.Component {
 				}
 			</Modal>
 		  ) : null;
-
 		return(
-			<React.Fragment>
+			<div>
 					<h1> My Component </h1>
 					{/*<Link to={'/othercomp'}> Link to Other Component</Link>*/}	
 					<a href="javascript:void(0)" style={{color: this.state.tab === 'image' ? 'red' : 'black'}} onClick={()=>{this.setState({tab: 'image'})}}> Images </a>
@@ -87,18 +93,29 @@ class MyComponent extends React.Component {
 					<div className=''>
 						{
 							this.state.tab === 'image' ?
-									<React.Fragment>
+									<div>
 										<div>
 											<a href='javascript:void(0)' className='btn btn-primary' onClick={this.downloadImages.bind(this)}>Download Selected Images
 											</a>
 										</div>
-										{this.showCards()}
-									</React.Fragment> :
-									<PDFComponent showPDF={this.showPDF} downloadPDFs={this.downloadPDFs.bind(this)}/>
+										<div>
+											{this.showCards()}
+										</div>
+									</div> :
+									<div>
+										<div>
+											<a href='javascript:void(0)' className='btn btn-primary' onClick={this.downloadPDFs.bind(this)}>Download Selected PDFs
+											</a>
+										</div>
+										<PDFComponent showPDF={this.showPDF}
+											downloadPDFs={this.downloadPDFs.bind(this)} 
+											pdfs={this.props.pdfObjects}
+											selectPDF={this.selectPDF} />
+									 </div>
 						}
 					</div>
 					{modal}
-			</React.Fragment>
+			</div>
 			)
 	}
 }
@@ -106,14 +123,19 @@ class MyComponent extends React.Component {
 function mapStateToProps(state, ownProps) {
 	return {
 		results: state.myReducer.results,
-		checkedImages: state.myReducer.checkedImages
+		checkedImages: state.myReducer.checkedImages,
+		pdfObjects: state.myReducer.pdfObjects,
+		checkedPDFs: state.myReducer.checkedPDFs
+
 	};
   }
   
 const mapDispatchToProps = (dispatch) => {
 		return {
 			retriveResults: () => dispatch(retriveResults()),
-			imageCheckClick: (id) => dispatch(imageCheckClick(id))			
+			imageCheckClick: (id) => dispatch(imageCheckClick(id)),
+			retrivePDFs: () => dispatch(retrivePDFs()),
+			checkPDF: (id) => dispatch(checkPDF(id))	
 		};
 };
 
