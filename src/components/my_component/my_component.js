@@ -40,7 +40,7 @@ class MyComponent extends React.Component {
 					<div className="card-body">
 						<input type='checkbox' id={results[elem_id]} checked={results[elem_id].checked} onChange={()=>{this.props.imageCheckClick(elem_id)}}/>
 						<h5 className="card-title">{results[elem_id].title}</h5>
-						<a id={`img-${elem_id}`} href={results[elem_id].thumbnailUrl}></a>
+						<a download id={`img-${elem_id}`} href={results[elem_id].url} target='_blank'></a>
 							<img href="javascript:void(0)" 
 								onClick={()=>{this.setState({showModal: true, imageUrl:results[elem_id].url})}}
 								src={results[elem_id].thumbnailUrl} />
@@ -52,17 +52,22 @@ class MyComponent extends React.Component {
 
 	downloadImages(){
 		let { checkedImages } = this.props;
-		// for(let i in checkedImages){
-		// 	if(checkedImages[i]){
-		// 		let elem = document.getElementById(`img-${i}`);
-		// 		elem.setAttribute('download', 'image');
-		// 	}
-		// }
-		console.log(checkedImages,"lplpl")
+		for(let i in checkedImages){
+			if(checkedImages[i]){
+				let elem = document.getElementById(`img-${i}`);
+				elem.click();
+			}
+		}
 	}
 
 	downloadPDFs(){
-		console.log(this.props.checkedPDFs,"@@@@")
+		let { checkedPDFs } = this.props;
+		for(let i in checkedPDFs){
+			if(checkedPDFs[i]){
+				let elem = document.getElementById(`pdf-${i}`);
+				elem.click();
+			}
+		}
 	}
 
 	render(){

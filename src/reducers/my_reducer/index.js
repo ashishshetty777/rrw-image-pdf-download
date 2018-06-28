@@ -12,9 +12,7 @@ export const myReducer = (state=initialState, action) => {
 
 	switch(action.type){
 		case 'RETRIVE_RESULTS':
-			let data = action.results.map(item => { item.checked = false; return item});
-
-			let result_obj = _keyBy(data, 'id') //converted the array into object for optimisation
+			let result_obj = _keyBy( action.results, 'id') //converted the array into object for optimisation
 			return {
 				...state,
 				results: result_obj
@@ -29,7 +27,6 @@ export const myReducer = (state=initialState, action) => {
 			};
 		case 'RETRIVE_PDFS':
 			let result_pdfs = _keyBy(action.results, 'id') //converted the array into object for optimisation
-
 			return {
 				...state,
 				pdfObjects: result_pdfs
