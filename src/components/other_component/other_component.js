@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { retrivePDFs, checkPDF } from '../../actions/my_action';
+import { retrivePDFs, checkPDF, resetPdfs } from '../../actions/my_action';
+import { getCount } from '../../helpers/util';
 import Modal from '../../universal_components/modal';
 import PDFComponent from '../../universal_components/pdf_component';
-import _ from 'lodash';
 
 class OtherComponent extends React.Component {
 
@@ -19,6 +19,10 @@ class OtherComponent extends React.Component {
 
 	componentDidMount(){
 		this.props.retrivePDFs();
+	}
+
+	componentWillUnmount(){
+		this.props.resetPdfs();
 	}
 
 	showPDF(path){
@@ -54,11 +58,16 @@ class OtherComponent extends React.Component {
 				}
 			</Modal>
 		  ) : null;
+
+		let pdfs_selected = getCount(this.props.checkedPDFs);
+
+
 		return(
 			<div>
 					<h1> Documents Route </h1>
-					<Link to={'/'} style={{color: 'red'}}> Images </Link>
-					<a href="javascript:void(0)" style={{color: 'black'}}> Documents </a>
+					<Link to={'/'} style={{color: 'black'}}> Images </Link>
+					<a href="javascript:void(0)" style={{color: 'red'}}> Documents </a>
+					{ pdfs_selected ? <h4> {pdfs_selected} Docs Selected </h4> : null }
 					<div>
 						<a href='javascript:void(0)' className='btn btn-primary' onClick={this.downloadPDFs.bind(this)}>Download Selected PDFs
 						</a>
@@ -84,7 +93,8 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = (dispatch) => {
 		return {
 			retrivePDFs: () => dispatch(retrivePDFs()),
-			checkPDF: (id) => dispatch(checkPDF(id))	
+			checkPDF: (id) => dispatch(checkPDF(id)),
+			resetPdfs: () => dispatch(resetPdfs())
 		};
 };
 

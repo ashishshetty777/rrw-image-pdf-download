@@ -39,6 +39,18 @@ export const myReducer = (state=initialState, action) => {
 				pdfObjects : {...state.pdfObjects, [action.id] : required_pdf}, 
 				checkedPDFs : { ...state.checkedPDFs, [action.id] : !id_pdf}
 			};
+		case 'RESET_PDFS':
+			return {
+				...state,
+				pdfObjects: {},
+				checkedPDFs: {}
+			}
+		case 'RESET_RESULTS':
+			return {
+				...state,
+				results: {},
+				checkedImages: {}
+			}
 		default:
 			return state;
 	}

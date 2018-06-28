@@ -110,6 +110,14 @@ const dispatchCheckPDF = id => ({
     id
 })
 
+const dispatchResetPdfs = () => ({
+    type: 'RESET_PDFS'
+})
+
+const dispatchResetResults = () => ({
+    type: 'RESET_RESULTS'
+})
+
 export const retriveResults = (obj) =>async dispatch =>{
     try{
         // let response = await axios.get('https://jsonplaceholder.typicode.com/photos');
@@ -129,6 +137,14 @@ export const retrivePDFs = () =>async dispatch =>{
 
 export const checkPDF = (id) =>async dispatch =>{
     dispatch(dispatchCheckPDF(id));
+}
+
+export const resetPdfs = () =>async dispatch =>{
+    dispatch(dispatchResetPdfs());
+}
+
+export const resetResults = () =>async dispatch =>{
+    dispatch(dispatchResetResults());
 }
   
   

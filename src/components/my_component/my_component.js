@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { retriveResults, imageCheckClick } from '../../actions/my_action';
+import { retriveResults, imageCheckClick, resetResults } from '../../actions/my_action';
+import { getCount } from '../../helpers/util';
 import Modal from '../../universal_components/modal';
 import PDFComponent from '../../universal_components/pdf_component';
-import _ from 'lodash';
 
 class MyComponent extends React.Component {
 
@@ -18,6 +18,10 @@ class MyComponent extends React.Component {
 
 	componentDidMount(){
 		this.props.retriveResults();
+	}
+
+	componentWillUnmount(){
+		this.props.resetResults();
 	}
 
 	showCards(){
@@ -67,11 +71,14 @@ class MyComponent extends React.Component {
 				}
 			</Modal>
 		  ) : null;
+
+		let images_selected = getCount(this.props.checkedImages);
 		return(
 			<div>
 					<h1> Image Route </h1>
-					<a href="javascript:void(0)" style={{color: 'black'}}> Images </a>
-					<Link to={'/othercomp'} style={{color: 'red'}}> Documents </Link>
+					<a href="javascript:void(0)" style={{color: 'red'}}> Images </a>
+					<Link to={'/othercomp'} style={{color: 'black'}}> Documents </Link>
+					{ images_selected ? <h4> {images_selected} Images Selected </h4> : null }
 					<div>
 						<a href='javascript:void(0)' className='btn btn-primary' onClick={this.downloadImages.bind(this)}>Download Selected Images
 						</a>
@@ -95,7 +102,8 @@ function mapStateToProps(state, ownProps) {
 const mapDispatchToProps = (dispatch) => {
 		return {
 			retriveResults: () => dispatch(retriveResults()),
-			imageCheckClick: (id) => dispatch(imageCheckClick(id))
+			imageCheckClick: (id) => dispatch(imageCheckClick(id)),
+			resetResults: () => dispatch(resetResults())
 		};
 };
 
